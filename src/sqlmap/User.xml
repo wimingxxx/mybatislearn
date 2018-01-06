@@ -13,6 +13,10 @@
         SELECT * FROM `user` WHERE id  = #{id}
     </select>
 
+    <select id="findUserById" parameterType="int" resultType="com.qwm.mybatis.pojo.User">
+        SELECT * FROM `user` WHERE id  = #{id}
+    </select>
+
     <!--根据用户名称模糊查询用户信息-->
     <select id="findUserByName" parameterType="java.lang.String" resultType="com.qwm.mybatis.pojo.User">
         select * from user where username like "%"#{value}"%"

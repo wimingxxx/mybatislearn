@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.qwm.mybatis.mapper.UserMapper">
+
+    <!-- id:statement的id 或者叫做sql的id-->
+    <!-- parameterType:声明输入参数的类型 -->
+    <!-- resultType:声明输出结果的类型，应该填写pojo的全路径 -->
+    <!-- #{}：输入参数的占位符，相当于jdbc的？ -->
+    <select id="queryUserById" parameterType="int" resultType="com.qwm.mybatis.pojo.User">
+        SELECT * FROM `user` WHERE id  = #{id}
+    </select>
+
+    <select id="findUserById" parameterType="int" resultType="user">
+        SELECT * FROM `user` WHERE id  = #{id}
+    </select>
+
+    <!--根据用户名称模糊查询用户信息-->
+    <select id="findUserByName" parameterType="java.lang.String" resultType="com.qwm.mybatis.pojo.User">
+        select * from user where username like "%"#{value}"%"
+    </select>
+
+    <!-- 添加用户
+    parameterType：输入 参数的类型，User对象 包括 username,birthday,sex,address
+    #{}接收pojo数据，可以使用OGNL解析出pojo的属性值
+    #{username}表示从parameterType中获取pojo的属性值
+    selectKey：用于进行主键返回，定义了获取主键值的sql
+    order：设置selectKey中sql执行的顺序，相对于insert语句来说
+    keyProperty：将主键值设置到哪个属性
+    resultType：select LAST_INSERT_ID()的结果 类型
+     -->
+    <insert id="insertUser" parameterType="com.qwm.mybatis.pojo.User">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select LAST_INSERT_ID();
+        </selectKey>
+        insert into user(username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <!--删除用户，根据id删除-->
+    <delete id="deleteUser" parameterType="int">
+      delete from user where id = #{user_id}
+    </delete>
+
+    <!-- 用户更新
+    要求：传入的user对象中包括 id属性值
+    -->
+    <update id="updateUser" parameterType="com.qwm.mybatis.pojo.User">
+      	  update user set
+      	  username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}
+      	  where id=#{id}
+    </update>
+
+    <!--自定义查询条件查询用户信息
+     parameterType：指定包装类型
+     %${userCustom.username}%：userCustom是 userQueryVo的属性，通过OGNL获取属性的值
+     -->
+    <!--    <select id="findUserList" parameterType="userQueryVo" resultType="user">
+            select * from user where username like '%${userCustom.username}%'
+        </select>-->
+
+    <!--<select id="findUserList" parameterType="userQueryVo" resultType="user">-->
+    <!--select * from user-->
+    <!--<if test="userCustom!=null">-->
+    <!--<if test="userCustom.username!=null and userCustom.username!='' ">-->
+    <!--where username like '%${userCustom.username}%'-->
+    <!--</if>-->
+    <!--</if>-->
+    <!--</select>-->
+
+    <!--<select id="findUserList" parameterType="userQueryVo" resultType="user">-->
+    <!--select * from user-->
+    <!--<where>-->
+    <!--&lt;!&ndash; 引用sql片段，如果sql片段和引用处不在同一个mapper必须前边加namespace &ndash;&gt;-->
+    <!--<include refid="query_user_where"></include>-->
+    <!--&lt;!&ndash; 下边还有很其它的条件 &ndash;&gt;-->
+    <!--&lt;!&ndash; <include refid="其它的sql片段"></include> &ndash;&gt;-->
+    <!--</where>-->
+    <!--</select>-->
+
+    <select id="findUserList" parameterType="userQueryVo" resultType="user">
+        select * from user
+        <where>
+            <!-- 引用sql片段，如果sql片段和引用处不在同一个mapper必须前边加namespace -->
+            <include refid="query_user_where"></include>
+            <!-- 下边还有很其它的条件 -->
+            <!-- <include refid="其它的sql片段"></include> -->
+            <if test="ids!=null">
+                <foreach collection="ids" open="and id in (" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 将用户查询条件定义为sql片段
+    建议对单表的查询条件单独抽取sql片段，提高公用性
+    注意：不要将where标签放在sql片段
+    -->
+    <sql id="query_user_where">
+        <if test="userCustom!=null">
+            <if test="userCustom.username!=null and userCustom.username!='' ">
+                and username like '%${userCustom.username}%'
+            </if>
+            <if test="userCustom.sex!=null and userCustom.sex!='' ">
+                and sex = #{userCustom.sex}
+            </if>
+        </if>
+    </sql>
+</mapper>
