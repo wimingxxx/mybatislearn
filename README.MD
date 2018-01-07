@@ -37,7 +37,7 @@
 
 [SSH与SSM学习之MyBatis17——一对多查询(复杂)](blog/17.md)
 
-[SSH与SSM学习之MyBatis17——多对多查询(resultType)](blog/18.md)
+[SSH与SSM学习之MyBatis18——多对多查询(resultType)](blog/18.md)
 
 [](blog/19.md)
 
