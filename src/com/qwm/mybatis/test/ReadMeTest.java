@@ -12,7 +12,7 @@ public class ReadMeTest {
 
     @Test
     public void test1(){
-        for (int i = 1; i < 20; i++) {
+        for (int i = 20; i < 26; i++) {
             if(i<10){
                 System.out.println( "[](blog/0"+i+".md)\n" );
             }else{

@@ -108,4 +108,67 @@
             </if>
         </if>
     </sql>
+
+    <resultMap id="userOrDetailResultMap" type="user" autoMapping="true">
+
+        <!--订单信息-->
+        <collection property="orderslist" ofType="orders" autoMapping="true">
+            <id column="orders_id" property="id"/>
+            <!--订单明细-->
+            <collection property="orderdetails" ofType="orderdetail" autoMapping="true">
+                <id column="orderdetail_id" property="id"/>
+                <!--商品详情-->
+                <association property="items" javaType="items" autoMapping="true">
+                    <id column="itemsId" property="id"/>
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!--    一对多查询使用resultMap完成
+    查询用户及其订单和订单明细，关联商品的信息-->
+    <select id="findUserOrDetails" resultMap="userOrDetailResultMap">
+        SELECT
+            USER .*,
+            orders.id orders_id,
+            orders.user_id userId,
+            orders.number,
+            orders.createtime,
+            orderdetail.id orderdetail_id,
+            orderdetail.items_num itemsNum,
+            items.id itemsId,
+            items. NAME,
+            items.price,
+            items.detail
+        FROM
+            USER,
+            orders,
+            orderdetail,
+            items
+        WHERE
+            USER .id = orders.user_id
+        AND orders.id = orderdetail.orders_id
+        AND orderdetail.items_id = items.id
+    </select>
+
+    <!--多对多查询：
+    查询显示字段：用户账号、用户名称、用户性别、商品名称、商品价格(最常见)-->
+    <select id="findUserOrItems" resultType="userCustom">
+        SELECT
+            USER.id,
+            USER.username,
+            USER.sex,
+            items.price,
+            items.name itemName
+        FROM
+            USER,
+            orders,
+            orderdetail,
+            items
+        WHERE
+            USER .id = orders.user_id
+        AND orders.id = orderdetail.orders_id
+        AND orderdetail.items_id = items.id
+    </select>
+
 </mapper>

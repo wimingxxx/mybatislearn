@@ -2,6 +2,7 @@ package com.qwm.mybatis.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: qiwenming(杞文明)
@@ -15,6 +16,8 @@ public class User implements Serializable {
     private String sex;//性别
     private Date birthday;//生日
     private String address;//地址
+    //多个订单
+    private List<Orders> orderslist;
 
     public String getAddress() {
         return address;

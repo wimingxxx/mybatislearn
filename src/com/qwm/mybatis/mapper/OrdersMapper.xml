@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.qwm.mybatis.mapper.OrdersMapper">
+    <select id="findOrderUserList" resultType="ordersCustom">
+        SELECT
+			orders.*,
+			USER .username,
+			USER .address,
+			USER .sex
+		FROM
+			orders,
+			USER
+		WHERE
+			orders.user_id = USER .id
+    </select>
+
+
+	<!--一对一查询resultMap-->
+	<resultMap id="ordersUserResultMap" type="orders">
+		<!--完成订单信息的映射配置-->
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createtime"/>
+		<result column="note" property="note"/>
+
+		<!--完成关联用户信息的映射配置-->
+		<!--
+		association：用于对关联信息映射到单个pojo
+		property：要将关联信息映射到orders的哪个属性中
+		javaType：关联信息映射到orders的属性的类型，是user的类型
+		-->
+		<association property="user" javaType="user">
+			<id column="user_id" property="id"/>
+			<result column="username" property="username"/>
+			<result column="sex" property="sex"/>
+			<result column="address" property="address"/>
+		</association>
+
+	</resultMap>
+
+	<!--一对一查询，使用resultMap完成
+	查询订单关联查询用户信息-->
+	<select id="findOrderUserListResultMap" resultMap="ordersUserResultMap">
+		SELECT
+			orders.*,
+			USER .username,
+			USER .address,
+			USER .sex
+		FROM
+			orders,
+			USER
+		WHERE
+			orders.user_id = USER .id
+	</select>
+
+	<resultMap id="orderAndOrderDetails" type="orders" extends="ordersUserResultMap">
+		<!-- 映射订单明细信息
+            property：要将关联信息映射到orders的哪个属性中
+            ofType：集合中pojo的类型
+            -->
+		<collection property="orderdetails" ofType="orderdetail">
+			<id column="orderdetail_id" property="id"/>
+			<result column="items_num" property="itemsNum"/>
+			<result column="items_id" property="itemsId"/>
+		</collection>
+	</resultMap>
+
+	<!--一对多查询使用resultMap完成
+	查询订单关联查询订单明细-->
+	<select id="findOderAndOrderDetails" resultMap="orderAndOrderDetails">
+		SELECT
+			orders.*,
+			USER .username,
+			USER .address,
+			USER .sex,
+			orderdetail.id orderdetail_id,
+			orderdetail.items_num,
+			orderdetail.items_id
+		FROM
+			orders,
+			USER,
+			orderdetail
+		WHERE
+			orders.user_id = USER .id
+		AND orders.id = orderdetail.orders_id
+	</select>
+</mapper>

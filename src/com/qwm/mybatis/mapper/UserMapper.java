@@ -1,6 +1,7 @@
 package com.qwm.mybatis.mapper;
 
 import com.qwm.mybatis.pojo.User;
+import com.qwm.mybatis.pojo.UserCustom;
 import com.qwm.mybatis.pojo.UserQueryVo;
 
 import java.io.Serializable;
@@ -36,4 +37,18 @@ public interface UserMapper {
      * @throws Exception
      */
     public List<User> findUserList(UserQueryVo userQueryVo) throws Exception;
+
+    /**
+     * 查询用户及其订单和订单明细，关联商品的信息
+     * @return
+     * @throws Exception
+     */
+    List<User> findUserOrDetails() throws Exception;
+
+    /**
+     * 多对多查询：查询显示字段：用户账号、用户名称、用户性别、商品名称、商品价格(最常见
+     * @return
+     * @throws Exception
+     */
+    List<UserCustom> findUserOrItems() throws Exception;
 }
