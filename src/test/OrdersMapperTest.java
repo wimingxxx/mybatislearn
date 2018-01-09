@@ -3,6 +3,7 @@ package test;
 import com.qwm.mybatis.mapper.OrdersMapper;
 import com.qwm.mybatis.pojo.Orders;
 import com.qwm.mybatis.pojo.OrdersCustom;
+import com.qwm.mybatis.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -65,5 +66,21 @@ public class OrdersMapperTest {
         OrdersMapper ordersMapper = sqlSession.getMapper(OrdersMapper.class);
         List<Orders> list = ordersMapper.findOderAndOrderDetails();
         System.out.println(list);
+    }
+
+    /**
+     * 一对一查询，延迟加载
+     * @throws Exception
+     */
+    @Test
+    public void testFindOrderUserListLazyLoading() throws Exception{
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        OrdersMapper ordersMapper = sqlSession.getMapper(OrdersMapper.class);
+        //调用方法，查询订单
+        List<Orders> list = ordersMapper.findOrderUserListLazyLoading();
+        System.out.println("---------------下面开始延迟加载---------------");
+        //这里执行延迟加载，要发出sql
+        User user = list.get(0).getUser();
+        System.out.println(user);
     }
 }

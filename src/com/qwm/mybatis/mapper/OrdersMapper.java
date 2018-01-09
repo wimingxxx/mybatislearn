@@ -2,6 +2,7 @@ package com.qwm.mybatis.mapper;
 
 import com.qwm.mybatis.pojo.Orders;
 import com.qwm.mybatis.pojo.OrdersCustom;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface OrdersMapper {
 
     //一对多查询，查询订单关联查询用户(resultMap实现)
     List<Orders> findOderAndOrderDetails() throws Exception;
+
+    //一对一查询，延迟加载
+    List<Orders> findOrderUserListLazyLoading() throws Exception;
 }

@@ -39,19 +39,23 @@
 
 [SSH与SSM学习之MyBatis18——多对多查询(resultType)](blog/18.md)
 
-[](blog/19.md)
+[SSH与SSM学习之MyBatis19——多对多查询(resultMap)](blog/19.md)
 
-[](blog/20.md)
+[SSH与SSM学习之MyBatis20——延迟加载](blog/20.md)
 
-[](blog/21.md)
+[SSH与SSM学习之MyBatis21——resultType、resultMap、延迟加载使用场景总结](blog/21.md)
 
-[](blog/22.md)
+[SSH与SSM学习之MyBatis22——一级缓存](blog/22.md)
 
-[](blog/23.md)
+[SSH与SSM学习之MyBatis23——二级缓存](blog/23.md)
 
-[](blog/24.md)
+[SSH与SSM学习之MyBatis24——mybatis和ehcache缓存框架整合](blog/24.md)
 
 [](blog/25.md)
+
+[](blog/26.md)
+
+[](blog/27.md)
 
 
 

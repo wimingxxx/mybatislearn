@@ -16,6 +16,7 @@ public class User implements Serializable {
     private String sex;//性别
     private Date birthday;//生日
     private String address;//地址
+    private List<ItemsCustom> itemsCustoms;
     //多个订单
     private List<Orders> orderslist;
 
@@ -59,14 +60,19 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "address='" + address + '\'' +
-                ", id=" + id +
-                ", username='" + username + '\'' +
-                ", sex='" + sex + '\'' +
-                ", birthday=" + birthday +
-                '}';
+    public List<ItemsCustom> getItemsCustoms() {
+        return itemsCustoms;
+    }
+
+    public void setItemsCustoms(List<ItemsCustom> itemsCustoms) {
+        this.itemsCustoms = itemsCustoms;
+    }
+
+    public List<Orders> getOrderslist() {
+        return orderslist;
+    }
+
+    public void setOrderslist(List<Orders> orderslist) {
+        this.orderslist = orderslist;
     }
 }

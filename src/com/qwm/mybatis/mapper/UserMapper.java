@@ -51,4 +51,14 @@ public interface UserMapper {
      * @throws Exception
      */
     List<UserCustom> findUserOrItems() throws Exception;
+
+    /**
+     * 多对多查询：查询显示字段：用户账号、用户名称、购买商品数量、商品明细
+     * @return
+     * @throws Exception
+     */
+    List<User> findUserOrItemsDetail() throws Exception;
+
+    //修改用户
+    void updateUser(User user) throws Exception;
 }

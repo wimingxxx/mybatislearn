@@ -5,6 +5,13 @@
 <!-- namespace：命名空间，用于隔离sql-->
 <mapper namespace="com.qwm.mybatis.mapper.UserMapper">
 
+    <!--表示此mapper开启二级缓存-->
+    <!--<cache/>-->
+
+    <!-- 开启二级缓存 -->
+    <!-- 单位：毫秒 -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
     <!-- id:statement的id 或者叫做sql的id-->
     <!-- parameterType:声明输入参数的类型 -->
     <!-- resultType:声明输出结果的类型，应该填写pojo的全路径 -->
@@ -169,6 +176,38 @@
             USER .id = orders.user_id
         AND orders.id = orderdetail.orders_id
         AND orderdetail.items_id = items.id
+    </select>
+
+    <resultMap id="userOrItemsDetailResultMap" type="user" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="itemsCustoms" ofType="itemsCustom" autoMapping="true">
+            <id column="item_id" property="id"/>
+        </collection>
+    </resultMap>
+
+    <!--多对多查询：查询显示字段：用户账号、用户名称、购买商品数量、商品明细-->
+    <select id="findUserOrItemsDetail" resultMap="userOrItemsDetailResultMap">
+        SELECT
+            USER .id,
+            USER .username,
+            SUM(items_num) AS itemsNum,
+            items.id itemId,
+            items.name,
+            items.price,
+            items.detail,
+            items.pic,
+            items.createtime
+        FROM
+            USER,
+            orders,
+            orderdetail,
+            items
+        WHERE
+            USER .id = orders.user_id
+        AND orders.id = orderdetail.orders_id
+        AND orderdetail.items_id = items.id
+        GROUP BY
+	        items_id
     </select>
 
 </mapper>
