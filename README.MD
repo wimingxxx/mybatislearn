@@ -51,11 +51,13 @@
 
 [SSH与SSM学习之MyBatis24——mybatis和ehcache缓存框架整合](blog/24.md)
 
-[](blog/25.md)
+[SSH与SSM学习之MyBatis25——mybatis和spring整合之基本项目创建](https://github.com/wimingxxx/mybatis_spring/tree/master/blog/25.md)
 
-[](blog/26.md)
+[SSH与SSM学习之MyBatis26——mybatis和spring整合之原始dao开发](https://github.com/wimingxxx/mybatis_spring/tree/master/blog/26.md)
 
-[](blog/27.md)
+[SSH与SSM学习之MyBatis27——mybatis和spring整合之mapper代理方法](https://github.com/wimingxxx/mybatis_spring/tree/master/blog/27.md)
+
+[SSH与SSM学习之MyBatis28——mybatis逆向工程](https://github.com/wimingxxx/mybatis_spring/tree/master/blog/28.md)
 
 
 
